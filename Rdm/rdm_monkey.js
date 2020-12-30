@@ -27,13 +27,13 @@
 (() => {
     let requireList =[
         {
-            link:"https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.1/Rdm/rdmPlugn.css",
+            link:"https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.2/Rdm/rdmPlugn.css",
         },
         {
-            src:"https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.1/Rdm/RdmData.js",
+            src:"https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.2/Rdm/RdmData.js",
         },
         {
-            src:"https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.1/Rdm/RdmPlugin.js",
+            src:"https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.2/Rdm/RdmPlugin.js",
         }
     ];
     for (let i = 0; i < requireList.length; i++) {
