@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name              rdm助手
 // @namespace         https://github.com/HermiteZhang
-// @version           0.2
+// @version           0.3
 // @supportURL        https://github.com/HermiteZhang/violentmonkey-hermite
 // @icon              http://rdm.landray.com.cn/favicon.ico?1391847577
 // @description       RDM
@@ -27,13 +27,16 @@
 (() => {
     let requireList =[
         {
-            link:"https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.2/Rdm/rdmPlugn.css",
+            link:"https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.3/Rdm/rdmPlugn.css",
         },
         {
-            src:"https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.2/Rdm/RdmData.js",
+            src:"https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.3/Rdm/RdmData.js",
         },
         {
-            src:"https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.2/Rdm/RdmPlugin.js",
+            src:"https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.3/Rdm/RdmPluginPanel.js",
+        },
+        {
+            src:"https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.3/Rdm/RdmPlugin.js",
         }
     ];
     for (let i = 0; i < requireList.length; i++) {
