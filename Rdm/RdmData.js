@@ -44,6 +44,11 @@ const __RdmEles = {
     "$issTabBody": {
         "name": "$issTabBody",
         "cls": "form .autoscroll table.issues tbody"
+    },
+    //--------------------project
+    "$subject": {
+        "name": "$subject",
+        "cls": ".issue .subject h3"
     }
 
 };

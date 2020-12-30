@@ -6,8 +6,45 @@ function RdmPlugin_Panel(plugin) {
     }
 
 }
-function RdmPlugin_Panel_project(plugin) {
 
+function getRdmNoForUrl() {
+    let localUrl = window.location.href;
+    let n = localUrl.lastIndexOf("/") + 1;
+    return localUrl.substring(n, localUrl.length)
+}
+
+function RdmPlugin_Panel_project(plugin) {
+    this.rdmNo = getRdmNoForUrl();
+    copySubjectToVersion(plugin, this.rdmNo);
+
+    function copySubjectToVersion(plugin, rdmNo) {
+        let $btn = $("<button>复制主题</button>")
+        let $inp = $("<input type='hidden' name='copySubjectToVersion' />");
+        let subject = plugin.$subject.text();
+        n = subject.lastIndexOf("】") + 1;
+        subject = subject.substring(n, subject.length)
+        let lui_subject = "#" + rdmNo + " 修复  " + subject + " by 张威";
+        $btn.on("click", function () {
+            let $input = $("<input style='position: absolute;' />")//创建input对象
+            $(this).after($input);//添加元素
+            $input.val(lui_subject);
+            $input.focus();
+            if ($input.setSelectionRange)
+                $input.setSelectionRange(0, $input.value.length);//获取光标起始位置到结束位置
+            else
+                $input.select();
+            try {
+                document.execCommand("copy");//执行复制
+                $btn.text("复制成功 " + new Date())
+            } catch (eo) {
+                $btn.text("复制失败 " + new Date())
+            }
+            $input.remove();
+        })
+
+        plugin.$subject.after($btn)
+        plugin.$subject.after($inp)
+    }
 
 }
 
