@@ -49,7 +49,10 @@ const __RdmEles = {
     "$subject": {
         "name": "$subject",
         "cls": ".issue .subject h3"
-    }
+    },
+    "#history": {},
+
+
 
 };
 const __RDMBODY_ISSUES = "issues";
@@ -91,6 +94,12 @@ const __ISSUES_TYPE = {
         keyCol: "cf_5",
         keyWord: "需求",
         name: "需求",
+        desc: "需求-分类"
+    },
+    "s_inStorage": {
+        keyCol: "status",
+        keyWord: "入库中",
+        name: "入库单",
         desc: "需求-分类"
     }
 

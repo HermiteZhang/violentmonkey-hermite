@@ -11,9 +11,24 @@
     cursor: pointer;
 }
 
+#rdmImagePanel {
+    cursor: pointer;
+    display: none;
+    position: fixed;
+    top: 0px;
+    z-index: 999;
+    width: 100%;
+    background-color:rgba(98, 141, 188, 0.4) ;
+
+}
+#rdmImagePanel_image{
+
+}
+
 tr[plugin_tr_css='service'] {
     background-color: #ffaacc
 }
+
 tr[plugin_tr_css='warn'] {
     background-color: #628DB6
 }

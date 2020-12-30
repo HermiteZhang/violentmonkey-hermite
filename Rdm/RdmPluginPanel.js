@@ -1,29 +1,29 @@
 function RdmPlugin_Panel(plugin) {
-    if (plugin.bodyType == __RDMBODY_ISSUES) {
+    if (plugin.parent.bodyType == __RDMBODY_ISSUES) {
         return RdmPlugin_Panel_list(plugin)
-    } else if (plugin.bodyType == __RDMBODY_PROJECT) {
+    } else if (plugin.parent.bodyType == __RDMBODY_PROJECT) {
         return RdmPlugin_Panel_project(plugin)
     }
 
 }
 
-function getRdmNoForUrl() {
-    let localUrl = window.location.href;
-    let n = localUrl.lastIndexOf("/") + 1;
-    return localUrl.substring(n, localUrl.length)
-}
-
 function RdmPlugin_Panel_project(plugin) {
-    this.rdmNo = getRdmNoForUrl();
-    copySubjectToVersion(plugin, this.rdmNo);
+    this.rdmNo = plugin.rdmNo;
+    this.imagePanel = new Rdm_ImagePanel();
+    this.imagePanel.appendTo($("body"));
 
-    function copySubjectToVersion(plugin, rdmNo) {
-        let $btn = $("<button>复制主题</button>")
+    
+    copySubjectToVersion(plugin);
+    dealATag(this);
+
+
+    function copySubjectToVersion(plugin) {
+        let $btn = $("<button type='button'>复制主题</button>")
         let $inp = $("<input type='hidden' name='copySubjectToVersion' />");
-        let subject = plugin.$subject.text();
+        let subject = plugin.parent.$subject.text();
         n = subject.lastIndexOf("】") + 1;
         subject = subject.substring(n, subject.length)
-        let lui_subject = "#" + rdmNo + " 修复  " + subject + " by 张威";
+        let lui_subject = "#" + plugin.rdmNo + " 修复  " + subject + " by 张威";
         $btn.on("click", function () {
             let $input = $("<input style='position: absolute;' />")//创建input对象
             $(this).after($input);//添加元素
@@ -42,10 +42,47 @@ function RdmPlugin_Panel_project(plugin) {
             $input.remove();
         })
 
-        plugin.$subject.after($btn)
-        plugin.$subject.after($inp)
+        plugin.parent.$subject.after($btn)
+        plugin.parent.$subject.after($inp)
     }
 
+    function dealATag(t) {
+        plugin.parent.$content.find("a").each(function () {
+            let href = $(this).attr("href");
+            if (href && (href.indexOf(".png") > 0||href.indexOf(".jpg") > 0)) {
+                $(this).attr("onclick", "return false");
+                $(this).on("click",function () {
+                    t.imagePanel.show(href)
+                });
+
+            } else {
+                $(this).attr("target", "_blank");
+            }
+
+        });
+    }
+
+}
+
+function Rdm_ImagePanel() {
+    let $ele = $("<div id='rdmImagePanel' />")
+    $ele.css({"width": window.innerWidth + "px","height": window.innerHeight + "px"})
+    this.$ele = $ele;
+    $ele.on("click",function () {
+        $ele.hide();
+    })
+    this.show = function (src) {
+        if (src){
+            this.$ele.empty();
+            let image = $("<img id='rdmImagePanel_image' />")
+            image.attr("src",src);
+            this.$ele.append(image);
+        }
+        this.$ele.show()
+    }
+    this.appendTo = function ($c) {
+        this.$ele.appendTo($c)
+    }
 }
 
 function RdmPlugin_Panel_list(plugin) {
@@ -79,14 +116,14 @@ function RdmPlugin_Panel_list(plugin) {
             title: "数量",
             total: function () {
                 let $td = $("<td/>")
-                $td.html("总计:" + plugin.rdmIns.issuesList.length);
+                $td.html("总计:" + plugin.issuesList.length);
                 return $td;
             },
             fun: function (key) {
                 let $td = $("<td class='number'/>");
-                let newList = plugin.rdmIns.issuesList.filter(item => item[key]);
+                let newList = plugin.issuesList.filter(item => item[key]);
                 let num = parseFloat(newList.length);
-                let total = parseFloat(plugin.rdmIns.issuesList.length);
+                let total = parseFloat(plugin.issuesList.length);
                 let count = total <= 0 ? "0%" : (Math.round(num / total * 10000) / 100.00) + "%";
                 $td.html(newList.length + "[" + count + "]");
                 return $td;
@@ -96,9 +133,14 @@ function RdmPlugin_Panel_list(plugin) {
             title: "展示",
             name: "filter-display",
             total: function () {
-                let $td = $("<td/>");
-                $("<input type='button' />")
-                $td.html("全部隐藏:" + plugin.rdmIns.issuesList.length);
+                let $td = $("<td colspan='2'/>");
+                let $btn = $("<button type='button' >全部显示</button>");
+                $btn.on("click", function () {
+                    plugin.issuesList.forEach(item => item.$ele.show());
+                    $("[name='filter-display2']").prop("checked", false);
+                    $("[name='filter-display']").prop("checked", false);
+                })
+                $td.html($btn);
                 return $td;
             },
             fun: function (key) {
@@ -109,11 +151,33 @@ function RdmPlugin_Panel_list(plugin) {
             },
             eventFun: function (t) {
                 let key = $(t).val();
-                plugin.rdmIns.issuesList.forEach(item => {
+                plugin.issuesList.forEach(item => {
                     if (item[key]) {
                         if ($(t).is(':checked')) {
                             item.$ele.hide();
                         } else {
+                            item.$ele.show();
+                        }
+                    }
+                });
+
+            }
+        },
+        {
+            title: "展示2",
+            name: "filter-display2",
+            fun: function (key) {
+                let $td = $("<td class='dispaly'/>");
+                let $inp = $("<label><input name='filter-display2' type='radio' value='" + key + "'/> 只显示 </label>");
+                $td.append($inp);
+                return $td;
+            },
+            eventFun: function (t) {
+                let key = $(t).val();
+                plugin.issuesList.forEach(item => {
+                    item.$ele.hide();
+                    if (item[key]) {
+                        if ($(t).is(':checked')) {
                             item.$ele.show();
                         }
                     }
@@ -136,7 +200,7 @@ function RdmPlugin_Panel_list(plugin) {
                 let key = $(t).attr("mark-key");
                 let cssSet = $(t).find("option:selected").val();
 
-                plugin.rdmIns.issuesList.forEach(item => {
+                plugin.issuesList.forEach(item => {
                     if (item[key]) {
                         console.log(key, cssSet, item.$ele);
                         item.$ele.attr("plugin_tr_css", cssSet)
@@ -147,10 +211,10 @@ function RdmPlugin_Panel_list(plugin) {
     ];
 
 
-    let $qf = plugin.$queryForm;
+    let $qf = plugin.parent.$queryForm;
     let $pb = $qf.find("p.buttons");
     let $panel = $("<div id='rdmPluginPanel' />");
-    buildFilterTab($panel, plugin);
+    buildFilterTab($panel);
     $panel.append($pb);
     $qf.append($panel);
 
@@ -158,7 +222,7 @@ function RdmPlugin_Panel_list(plugin) {
      * 筛选面板
      * @param $panel
      */
-    function buildFilterTab($panel, plugin) {
+    function buildFilterTab($panel) {
 
         let $FT = $("<table id='rdmPluginPanel-FilterTab'></table>");
         let $th = $("<tr class='FilterTab-head' />");

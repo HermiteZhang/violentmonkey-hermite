@@ -1,4 +1,3 @@
-
 //-------------------- 方法处理 分割线
 /**
  * 预定义element 参数化
@@ -83,17 +82,38 @@ function RdmPlugin() {
             let rdmIns = new RdmPlugin_issues();
             rdmIns.init(this);
             this.rdmIns = rdmIns;
+
+        } else if (this.bodyType == __RDMBODY_PROJECT) {
+            let rdmIns = new RdmPlugin_Project();
+            rdmIns.init(this);
+            this.rdmIns = rdmIns;
         }
-        this.panel = new RdmPlugin_Panel(this)
+
+
         console.log("this", this);
 
     };
 
 }
+
 function RdmPlugin_issues() {
     this.init = (parent) => {
         this.parent = parent;
         this.issuesList = getIssuesList(parent.$issTabBody);
+        parent.panel = new RdmPlugin_Panel(this)
+    };
+}
+
+function RdmPlugin_Project() {
+    this.init = (parent) => {
+        this.parent = parent;
+        let localUrl = window.location.href;
+        let n = localUrl.lastIndexOf("/") + 1;
+        this.rdmNo = localUrl.substring(n, localUrl.length);
+
+        parent.panel = new RdmPlugin_Panel(this);
+
+
     };
 }
 
