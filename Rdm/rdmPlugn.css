@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+#rdmPluginPanel {
+    width: 100%;
+    background-color: rgba(98, 141, 188, 0.1);
+    margin-bottom: 20px;
+    padding: 5px 10px;
+}
+
+#rdmPluginPanel label {
+    cursor: pointer;
+}
+
+tr[plugin_tr_css='service'] {
+    background-color: #ffaacc
+}
+tr[plugin_tr_css='warn'] {
+    background-color: #628DB6
+}
