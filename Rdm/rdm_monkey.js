@@ -2,8 +2,9 @@
 // @name              rdm助手
 // @namespace         https://github.com/HermiteZhang
 // @version           0.2
+// @supportURL        https://github.com/HermiteZhang/violentmonkey-hermite
 // @icon              http://rdm.landray.com.cn/favicon.ico?1391847577
-// @description      RDM
+// @description       RDM
 // @license           AGPL
 // @match             *://rdm.landray.com.cn/*
 // @require           https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js
