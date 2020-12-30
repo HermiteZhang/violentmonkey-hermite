@@ -22,7 +22,9 @@
 // @grant             GM_registerMenuCommand
 // ==/UserScript==
 //https://cdn.jsdelivr.net/gh/你的用户名/你的仓库名@发布的版本号/文件路径
-
+// @require           https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.1/Rdm/rdmPlugn.css
+// @require           https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.1/Rdm/RdmData.js
+// @require           https://cdn.jsdelivr.net/gh/HermiteZhang/violentmonkey-hermite@v0.1/Rdm/RdmPlugin.js
 // (() => {
     // "use strict";
     // // css
