@@ -9,7 +9,6 @@
 // @match             *://rdm.landray.com.cn/*
 // @require           https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js
 // @require           https://cdn.jsdelivr.net/npm/sweetalert2@10.10.0/dist/sweetalert2.all.min.js
-
 // @connect           *
 // @run-at            document-idle
 // @grant             unsafeWindow
